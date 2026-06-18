@@ -33,6 +33,27 @@
 
         .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
         
+        /* 導覽切換按鈕區 */
+        .nav-toggle-box {
+            text-align: center;
+            margin: 1.5rem 0 2.5rem 0;
+        }
+        .btn-toggle {
+            background-color: #2980b9;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.3);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-toggle:hover {
+            background-color: #2471a3;
+            transform: translateY(-2px);
+        }
+
         .warning-card {
             background-color: #fadbd8;
             border-left: 5px solid var(--danger-color);
@@ -41,6 +62,14 @@
             border-radius: 6px;
             margin-bottom: 2rem;
             font-weight: bold;
+        }
+
+        .intro-card {
+            background-color: #fef5e7;
+            border-left: 5px solid var(--orange-accent);
+            padding: 1.2rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
         }
 
         .step-block {
@@ -73,7 +102,7 @@
             margin-right: 0.6rem;
         }
 
-        /* 試算表 ID 提取圖解樣式 */
+        /* 試算表 ID 提取樣式 */
         .url-box {
             background-color: #f1f5f9;
             border: 1px dashed #cbd5e1;
@@ -94,20 +123,10 @@
         }
 
         /* 40-Pin 實體排針模擬圖表 */
-        .gpio-container {
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-        .gpio-table {
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            text-align: center;
-        }
+        .gpio-container { overflow-x: auto; margin: 1.5rem 0; }
+        .gpio-table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 0.85rem; text-align: center; }
         .gpio-table th { background-color: var(--primary-color); color: white; padding: 0.5rem; }
         .gpio-table td { border: 1px solid #e2e8f0; padding: 0.4rem; }
-        
         .pin-num { background-color: #e2e8f0; font-weight: bold; width: 40px; }
         .pin-vcc { background-color: #fadbd8; color: #78281f; font-weight: bold; }
         .pin-gnd { background-color: #d5dbdb; color: #2c3e50; font-weight: bold; }
@@ -137,12 +156,21 @@
 
     <div class="container">
         
+        <div class="nav-toggle-box">
+            <a href="index.html" class="btn-toggle">⬅️ 返回【方案 A：GAS 快速部署方案】首頁</a>
+        </div>
+
         <div class="warning-card">
             ⚠️ 老師的嚴正警告：請先插妥杜邦線並確認所有接線正確後再行送電！若是接線錯誤，會導致 DHT11 及 Raspberry Pi 晶片燒毀！
         </div>
 
+        <div class="intro-card">
+            <strong>💡 架構導讀（方案 B）：</strong>
+            本教學採用「方案 B」。樹莓派作為本地中繼站與發起核心，讀取 DHT11 後，直接在樹莓派上執行高級驗證，透過 <strong>Google Sheets API V4 安全金鑰 (JSON 憑證)</strong> 直接操作雲端資料表，並平行呼叫 LINE 官方伺服器。此方案具備高度隱私權管理、安全性強且完全符合業界標準 OAuth2 認證的特性。
+        </div>
+
         <div class="step-block">
-            <div class="step-title"><div class="step-number">A</div>如何正確複製 Google 試算表 ID？</div>
+            <div class="step-title"><div class="step-number">1</div>如何正確複製 Google 試算表 ID？</div>
             <p>請打開你的雲端試算表，觀察瀏覽器上方網址列，結構如下圖。請<strong>僅複製</strong>兩條斜線中間的那一長串隨機亂碼：</p>
             <div class="url-box">
                 https://docs.google.com/spreadsheets/d/<span class="url-highlight">【 只要複製這整串英數亂碼，這就是試算表 ID 】</span>/edit#gid=0
@@ -151,7 +179,7 @@
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">B</div>硬體腳位對照表 (Raspberry Pi 3 40-Pin 排針)</div>
+            <div class="step-title"><div class="step-number">2</div>硬體腳位對照表 (Raspberry Pi 3 40-Pin 排針)</div>
             <p>請對照下表進行接線，並確認 DHT11 模組上的字樣標示（因市面上排針順序不同，務必以模組上的文字標記為準）：</p>
             
             <div class="gpio-container">
@@ -196,7 +224,7 @@
                             <td>GPIO 15 (RXD)</td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="background:#f1f5f9; color:#64748b; font-size:0.75rem; padding:0.2rem;">(以下省略，上方已涵蓋本次實驗所需全部腳位)</td>
+                            <td colspan="4" style="background:#f1f5f9; color:#64748b; font-size:0.75rem; padding:0.2rem;">(以下細節省略，上方已涵蓋本次實驗所需全部腳位)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -204,7 +232,7 @@
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">C</div>樹莓派本地中繼控制主程式</div>
+            <div class="step-title"><div class="step-number">3</div>樹莓派本地中繼控制主程式</div>
             <p>在樹莓派中建立 <code class="code-inline">dht11_local_relay.py</code>，並將以下代碼完整貼入：</p>
             <pre><code>import time
 import requests
@@ -217,7 +245,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 JSON_KEY_FILE = "creds.json"  # 從 GCP 下載的金鑰檔案名
 
-# 📢 在這裡貼上你在步驟 A 所複製的長串試算表 ID
+# 📢 在這裡貼上你在步驟 1 所複製的長串試算表 ID
 SPREADSHEET_ID = "請在此處替換為你的_Google_試算表網址中的長串ID"
 
 LINE_ACCESS_TOKEN = "請在此處貼上你的_LINE_Channel_Access_Token"
