@@ -9,7 +9,6 @@
             --primary-color: #162447;
             --orange-accent: #e67e22;
             --danger-color: #c0392b;
-            --line-color: #06C755;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --code-bg: #1e293b;
@@ -54,19 +53,6 @@
             transition: transform 0.2s, background-color 0.2s;
         }
         .btn-toggle-a:hover { background-color: #2471a3; transform: translateY(-2px); }
-        
-        .btn-line {
-            background-color: var(--line-color);
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
-            transition: transform 0.2s, background-color 0.2s;
-        }
-        .btn-line:hover { background-color: #05b04b; transform: translateY(-2px); }
 
         .warning-card {
             background-color: #fadbd8;
@@ -81,6 +67,14 @@
         .intro-card {
             background-color: #fef5e7;
             border-left: 5px solid var(--orange-accent);
+            padding: 1.2rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .gcp-card {
+            background-color: #ebf5fb;
+            border-left: 5px solid #2980b9;
             padding: 1.2rem;
             border-radius: 4px;
             margin-bottom: 2rem;
@@ -170,7 +164,6 @@
         
         <div class="nav-toggle-box">
             <a href="index.html" class="btn-toggle-a">⬅️ 返回【方案 A：GAS 快速部署方案】首頁</a>
-            <a href="https://line.me/R/ti/p/@你的LINEBotID" target="_blank" class="btn-line">💬 測試與檢視我的 LINE Bot 官方帳號</a>
         </div>
 
         <div class="warning-card">
@@ -180,6 +173,14 @@
         <div class="intro-card">
             <strong>💡 架構導讀（方案 B）：</strong>
             本教學採用「方案 B」。由樹莓派直接作為控制核心，在讀取 DHT11 後，除了透過 Google v4 憑證寫入指定的試算表 ID，更**直接呼叫 LINE 官方伺服器 API** 發送即時推播，不經雲端第三方轉發，速度最快。
+        </div>
+
+        <div class="gcp-card">
+            <strong>🔑 方案 B 限定：Google Cloud Platform (GCP) 憑證申請準備</strong><br>
+            實作此方案前，請引導同學至 GCP 控制台完成以下設定：<br>
+            1. 建立新專案並啟用 <strong>Google Sheets API</strong>。<br>
+            2. 至「憑證」頁面建立服務帳戶（Service Account）或 API 金鑰，下載金鑰金鑰 JSON 檔案。<br>
+            3. 將該 JSON 檔複製到樹莓派程式碼相同的資料夾中，並在 Python 程式碼內引入呼叫。
         </div>
 
         <div class="step-block">
@@ -292,7 +293,6 @@ def send_to_line_bot_direct(temp, humi):
 
     <footer>
         <p>資通訊物聯網開發教材 ✕ 方案 B 本地中繼發送 ✕ 2026</p>
-        <p><a href="https://line.me/R/ti/p/@你的LINEBotID" target="_blank" style="color:#06C755; text-decoration:none; font-weight:bold;">🟢 點擊此處加入專案 LINE 官方帳號 Bot 🔔</a></p>
     </footer>
 
 </body>
