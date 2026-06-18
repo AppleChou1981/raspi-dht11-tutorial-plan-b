@@ -161,7 +161,7 @@
         </div>
 
         <div class="warning-card">
-            ⚠️ 老師的嚴正警告：請先插妥杜邦線並確認所有接線正確後再行送電！若是接線錯誤，會導致 DHT11 及 Raspberry Pi 晶片燒毀！
+            ⚠️ 重要提醒：請先插妥杜邦線並確認所有接線正確後再行送電！若是接線錯誤，會導致 DHT11 及 Raspberry Pi 晶片燒毀！
         </div>
 
         <div class="intro-card">
@@ -301,9 +301,13 @@ if __name__ == "__main__":
                 humidity = dhtDevice.humidity
                 
                 if humidity is not None and temperature is not None:
+                    # 補回重要目標一：直接操作 GCP 安全寫入 Google 試算表
                     send_to_google_sheet_direct(round(temperature, 1), round(humidity, 1))
+                    
+                    # 補回重要目標二：同步調用 LINE Bot 執行 Push Message 推播
                     send_to_line_bot_direct(round(temperature, 1), round(humidity, 1))
-                time.sleep(600)
+                    
+                time.sleep(600)  # 每 10 分鐘 (600秒) 自動量測上傳一次
             except RuntimeError as error:
                 time.sleep(2.0)
                 continue
