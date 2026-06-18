@@ -8,25 +8,18 @@
         :root {
             --primary-color: #2c3e50;
             --orange-accent: #e67e22;
-            --secondary-color: #16a085;
+            --danger-color: #c0392b;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #333333;
             --code-bg: #1e293b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
             line-height: 1.7;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 0;
+            color: #333;
         }
 
         header {
@@ -36,74 +29,18 @@
             padding: 2.5rem 1rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
 
-        header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        .intro-card {
-            background-color: #fef5e7;
-            border-left: 5px solid var(--orange-accent);
-            padding: 1.2rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-        }
-
-        .diagram-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-
-        .diagram-container h3 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .diagram {
-            font-family: monospace;
-            white-space: pre;
-            background-color: #0f172a;
-            color: #38bdf8;
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        .warning-card {
+            background-color: #fadbd8;
+            border-left: 5px solid var(--danger-color);
+            color: #78281f;
             padding: 1.2rem;
             border-radius: 6px;
-            text-align: left;
-            display: inline-block;
-            overflow-x: auto;
-            max-width: 100%;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-        }
-
-        h2::before {
-            content: "🛠️";
-            margin-right: 0.5rem;
-            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
         }
 
         .step-block {
@@ -112,11 +49,6 @@
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-top: 4px solid #cbd5e1;
-        }
-
-        .step-block.highlight {
-            border-top-color: var(--orange-accent);
         }
 
         .step-title {
@@ -141,49 +73,45 @@
             margin-right: 0.6rem;
         }
 
-        .step-block.highlight .step-number {
-            background-color: var(--orange-accent);
-        }
-
-        ul, ol {
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        .important {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-
-        .tip {
-            background-color: #fdf2e9;
-            border-left: 4px solid var(--orange-accent);
+        /* 試算表 ID 提取圖解樣式 */
+        .url-box {
+            background-color: #f1f5f9;
+            border: 1px dashed #cbd5e1;
             padding: 0.8rem;
-            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
             border-radius: 4px;
-            font-size: 0.95rem;
+            margin: 0.8rem 0;
+        }
+        .url-highlight {
+            background-color: #fef9e7;
+            border: 1px solid #f4d03f;
+            color: #b7950b;
+            padding: 0.1rem 0.4rem;
+            font-weight: bold;
+            border-radius: 3px;
         }
 
-        .pin-table {
+        /* 40-Pin 實體排針模擬圖表 */
+        .gpio-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        .gpio-table {
             width: 100%;
+            min-width: 600px;
             border-collapse: collapse;
-            margin: 1rem 0;
+            font-size: 0.85rem;
+            text-align: center;
         }
-
-        .pin-table th, .pin-table td {
-            border: 1px solid #cbd5e1;
-            padding: 0.6rem;
-            text-align: left;
-        }
-
-        .pin-table th {
-            background-color: #f8fafc;
-            color: var(--primary-color);
-        }
+        .gpio-table th { background-color: var(--primary-color); color: white; padding: 0.5rem; }
+        .gpio-table td { border: 1px solid #e2e8f0; padding: 0.4rem; }
+        
+        .pin-num { background-color: #e2e8f0; font-weight: bold; width: 40px; }
+        .pin-vcc { background-color: #fadbd8; color: #78281f; font-weight: bold; }
+        .pin-gnd { background-color: #d5dbdb; color: #2c3e50; font-weight: bold; }
+        .pin-gpio4 { background-color: #d4efdf; color: #145a32; font-weight: bold; }
 
         pre {
             background-color: var(--code-bg);
@@ -194,28 +122,10 @@
             margin: 1rem 0;
             font-size: 0.9rem;
         }
-
-        code {
-            font-family: Consolas, Monaco, monospace;
-        }
-
-        .code-inline {
-            background-color: #e2e8f0;
-            color: #1e293b;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-family: monospace;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            background-color: var(--primary-color);
-            color: white;
-            margin-top: 4rem;
-            font-size: 0.9rem;
-        }
+        code { font-family: Consolas, Monaco, monospace; }
+        .code-inline { background-color: #e2e8f0; color: #1e293b; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem; font-family: monospace; }
+        
+        footer { text-align: center; padding: 2rem 1rem; background-color: var(--primary-color); color: white; margin-top: 4rem; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -227,137 +137,75 @@
 
     <div class="container">
         
-        <div class="intro-card">
-            <strong>💡 架構導讀（方案 B）：</strong>
-            本教學採用「方案 B」。樹莓派作為本地中繼站與發起核心，讀取 DHT11 後，直接在樹莓派上執行高級驗證，透過 <strong>Google Sheets API V4 安全金鑰 (JSON 憑證)</strong> 直接操作雲端資料表，並平行呼叫 LINE 官方伺服器。此方案不依賴 GAS 網頁應用程式部署，具備高度隱私權管理、安全性強且完全符合業界標準 OAuth2 認證的特性。
-        </div>
-
-        <div class="diagram-container">
-            <h3>📊 方案 B 數據流向方塊圖</h3>
-            <div class="diagram">
-                        ┌──────────────────┐
-                        │  樹莓派 3 主機   │
-                        │  (Raspberry Pi)  │
-                        └────────┬─────────┘
-                                 │
-                ┌────────────────┴────────────────┐
-                ▼ (讀取溫溼度)                      ▼ (攜帶憑證主動推送)
-       ┌─────────────────┐               ┌────────────────────────────────┐
-       │ DHT11 感測器     │               │   本地 Python 邏輯控制中心     │
-       └─────────────────┘               │   - 載入 gspread 憑證金鑰      │
-                                         └────────┬──────────────┬────────┘
-                                                  │              │
-                    (利用 JSON 服務帳戶安全寫入)   │              │ (HTTP POST 帶 Token)
-                    ▼ Google Sheets API V4       │              │
-         ┌───────────────────────────────────────┘              └────────────────────────┐
-         ▼                                                                               ▼
- ┌───────────────────────────────┐                                       ┌──────────────────────────────┐
- │   Google Sheets (雲端試算表)  │                                       │   LINE 官方伺服器 (Push)     │
- ├───────────────────────────────┤                                       ├──────────────────────────────┤
- │ 接收服務帳戶的加密金鑰請求    │                                       │ 1. 驗證 Authorization Token  │
- │ 直接新增資料列到指定試算表     │                                       │ 2. 轉發即時通知字卡          │
- └───────────────────────────────┘                                       └──────────────┬───────────────┘
-                                                                                        ▼
-                                                                         ┌──────────────────────────────┐
-                                                                         │   手機 LINE App (推播通知)   │
-                                                                         └──────────────────────────────┘</div>
-        </div>
-
-        <h2>階段一：Google Cloud Platform (GCP) 金鑰與權限設定</h2>
-        
-        <div class="step-block">
-            <div class="step-title"><div class="step-number">1</div>啟用 Google Sheets API</div>
-            <ol>
-                <li>前往並登入 <a href="https://console.cloud.google.com/" target="_blank" style="color:var(--orange-accent); font-weight: bold;">Google Cloud 控制台</a>。</li>
-                <li>新增一個專案（例如命名為：`Raspi-Data-Center`）。</li>
-                <li>點擊左上角選單，進入 <strong>「API 和服務」 &gt; 「庫」</strong>。</li>
-                <li>在搜尋欄輸入 <strong>「Google Sheets API」</strong> 並點擊進入，接著按下 <strong>「啟用」</strong> 按鈕。</li>
-            </ol>
-        </div>
-
-        <div class="step-block highlight">
-            <div class="step-title"><div class="step-number">2</div>建立憑證與下載 JSON 金鑰</div>
-            <ol>
-                <li>啟用 API 後，點擊左側 <strong>「憑證」</strong> 頁籤，再點擊上方的 <strong>「+ 建立憑證」 &gt; 選擇「服務帳戶 (Service Account)」</strong>。</li>
-                <li>填寫服務帳戶名稱，一路按下「建立並繼續」直至完成。</li>
-                <li>建立成功後，在憑證清單下方會看到一組外觀類似 Email 的「服務帳戶電子郵件位址」，請將它完整複製下來。</li>
-                <li>點擊該服務帳戶右側的 <strong>「管理金鑰」</strong> 或點擊進入後選擇 <strong>「金鑰」頁籤 &gt; 點擊「新增金鑰」 &gt; 選擇「建立新金鑰」</strong>。</li>
-                <li>規格務必選擇 <span class="important">JSON</span> 格式，點擊建立。此時瀏覽器會自動下載一個 `.json` 格式的加密金鑰檔案，<strong>請妥善保存，切勿外流！</strong></li>
-            </ol>
+        <div class="warning-card">
+            ⚠️ 老師的嚴正警告：請先插妥杜邦線並確認所有接線正確後再行送電！若是接線錯誤，會導致 DHT11 及 Raspberry Pi 晶片燒毀！
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">3</div>將試算表權限共享給服務帳戶</div>
-            <ol>
-                <li>去你的 Google 雲端硬碟建立一張全新的 Google 試算表，並複製網址中的一長串亂碼（此即為 **Spreadsheet ID**）。</li>
-                <li>點擊該試算表右上角的 <strong>「共用」</strong> 按鈕。</li>
-                <li>在新增人員欄位中，貼上剛剛在 GCP 複製的 **「服務帳戶電子郵件位址」**。</li>
-                <li>權限設定為 **「編輯者」**，取消勾選通知，並按下儲存。這樣樹莓派才有權限直接改動這張表。</li>
-            </ol>
+            <div class="step-title"><div class="step-number">A</div>如何正確複製 Google 試算表 ID？</div>
+            <p>請打開你的雲端試算表，觀察瀏覽器上方網址列，結構如下圖。請<strong>僅複製</strong>兩條斜線中間的那一長串隨機亂碼：</p>
+            <div class="url-box">
+                https://docs.google.com/spreadsheets/d/<span class="url-highlight">【 只要複製這整串英數亂碼，這就是試算表 ID 】</span>/edit#gid=0
+            </div>
+            <p>💡 <em>註：這串 ID 稍後需要貼進 Python 程式碼中的 <code class="code-inline">SPREADSHEET_ID</code> 欄位。</em></p>
         </div>
 
-
-        <h2>階段二：LINE Developer 開發者憑證獲取</h2>
-        
         <div class="step-block">
-            <div class="step-title"><div class="step-number">4</div>撈取 LINE 關鍵憑證字串</div>
-            <p>登入 <a href="https://developers.line.biz/console/" target="_blank" style="color:var(--orange-accent); font-weight: bold;">LINE Developers 控制台</a> 建立你的 Bot 機器人：</p>
-            <ul>
-                <li><strong>獲取 User ID：</strong>在 <code class="code-inline">Basic settings</code> 頁籤最底部，複製 <strong>Your user ID</strong>（格式為 `Uxxxxxxxx...`）。</li>
-                <li><strong>獲取 Access Token：</strong>在 <code class="code-inline">Messaging API</code> 頁籤最底部，在 <strong>Channel access token</strong> 欄位點擊 <strong>「Issue」</strong>，複製整串長金鑰。</li>
-                <li><strong>加好友：</strong>用手機掃描該頁面的 QR Code，將機器人<strong>加入好友</strong>，否則會收不到主動推播。</li>
-            </ul>
-        </div>
-
-
-        <h2>階段三：樹莓派 Python 環境建置與中繼程式撰寫</h2>
-        
-        <div class="step-block highlight">
-            <div class="step-title"><div class="step-number">5</div>安裝 API 通訊與硬體驅動套件</div>
-            <p>由於方案 B 是在樹莓派本地端直接對 Google 官方伺服器進行 OAuth2 加密認證，因此必須安裝專門的 Python 通訊庫：</p>
-            <pre><code>sudo apt update
-sudo apt install -y gpiod libgpiod-dev
-pip3 install gspread oauth2client adafruit-circuitpython-dht --break-system-packages</code></pre>
-            <div class="tip">
-                💡 <strong>檔案放置小提示：</strong>請將剛剛在電腦上下載的 Google GCP `.json` 金鑰檔案透過傳輸軟體傳入樹莓派中，並重新命名為更簡短好記的檔案名稱（例如：`creds.json`），將其放置在與你的 Python 腳本同一個資料夾目錄底下。
+            <div class="step-title"><div class="step-number">B</div>硬體腳位對照表 (Raspberry Pi 3 40-Pin 排針)</div>
+            <p>請對照下表進行接線，並確認 DHT11 模組上的字樣標示（因市面上排針順序不同，務必以模組上的文字標記為準）：</p>
+            
+            <div class="gpio-container">
+                <table class="gpio-table">
+                    <thead>
+                        <tr>
+                            <th>左側功能標記 (奇數針腳)</th>
+                            <th style="width:50px;">實體</th>
+                            <th style="width:50px;">實體</th>
+                            <th>右側功能標記 (偶數針腳)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="pin-vcc">
+                            <td>接 DHT11 的 VCC (+) ── [3.3V 電源]</td>
+                            <td class="pin-num">1</td>
+                            <td class="pin-num">2</td>
+                            <td>5V 電源</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO 2 (SDA)</td>
+                            <td class="pin-num">3</td>
+                            <td class="pin-num">4</td>
+                            <td>5V 電源</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO 3 (SCL)</td>
+                            <td class="pin-num">5</td>
+                            <td class="pin-num">6</td>
+                            <td class="pin-gnd">接 DHT11 的 GND (-) ── [Ground 地線]</td>
+                        </tr>
+                        <tr class="pin-gpio4">
+                            <td>接 DHT11 的 DAT (Data/Out/S) ── [GPIO 4]</td>
+                            <td class="pin-num">7</td>
+                            <td class="pin-num">8</td>
+                            <td>GPIO 14 (TXD)</td>
+                        </tr>
+                        <tr>
+                            <td>Ground (接地)</td>
+                            <td class="pin-num">9</td>
+                            <td class="pin-num">10</td>
+                            <td>GPIO 15 (RXD)</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="background:#f1f5f9; color:#64748b; font-size:0.75rem; padding:0.2rem;">(以下省略，上方已涵蓋本次實驗所需全部腳位)</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">6</div>硬體引腳彈性對接</div>
-            <p>請先用肉眼認清你手上的 3-Pin DHT11 引腳上的文字標示（VCC、GND、Data），並在樹莓派關機狀態下一對一安全連線：</p>
-            
-            <table class="pin-table">
-                <thead>
-                    <tr>
-                        <th>DHT11 模組上的標示</th>
-                        <th>連接到樹莓派的腳位名稱</th>
-                        <th>樹莓派實體排針編號 (Physical Pin)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>VCC / +</strong> (電源正極)</td>
-                        <td>3.3V 電源</td>
-                        <td>實體第 1 針腳 (Pin 1)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>GND / -</strong> (電源負極)</td>
-                        <td>GND (Ground 地線)</td>
-                        <td>實體第 6 針腳 (Pin 6)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>DATA / S / OUT</strong> (數據腳)</td>
-                        <td>GPIO 4</td>
-                        <td>實體第 7 針腳 (Pin 7)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="step-block">
-            <div class="step-title"><div class="step-number">7</div>撰寫 Python 本地中繼控制主程式</div>
-            <p>在樹莓派終端機輸入 <code class="code-inline">nano dht11_local_relay.py</code>，並貼入以下融合了本地安全授權與 LINE Messaging API 的完整程式碼：</p>
+            <div class="step-title"><div class="step-number">C</div>樹莓派本地中繼控制主程式</div>
+            <p>在樹莓派中建立 <code class="code-inline">dht11_local_relay.py</code>，並將以下代碼完整貼入：</p>
             <pre><code>import time
 import requests
 import board
@@ -367,41 +215,36 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # ==================== 1. 雲端與金鑰引腳參數設定 ====================
 
-# (1) Google Sheets 參數設定
-JSON_KEY_FILE = "creds.json"  # 請確保與此 Python 檔同目錄
+JSON_KEY_FILE = "creds.json"  # 從 GCP 下載的金鑰檔案名
+
+# 📢 在這裡貼上你在步驟 A 所複製的長串試算表 ID
 SPREADSHEET_ID = "請在此處替換為你的_Google_試算表網址中的長串ID"
 
-# (2) LINE Bot 憑證參數設定
 LINE_ACCESS_TOKEN = "請在此處貼上你的_LINE_Channel_Access_Token"
 TARGET_USER_ID = "請在此處貼上你的_LINE_Your_user_ID"
 
-# (3) 硬體引腳預設 GPIO 4 (實體第 7 針)
+# 預設連接到 GPIO 4 (即實體第 7 針腳)
 dhtDevice = adafruit_dht.DHT11(board.D4)
 
-# ==================== 2. 功能函式定義 ====================
+# ==================== 2. 核心功能邏輯 ====================
 
 def send_to_google_sheet_direct(temp, humi):
-    """利用本機端憑證，透過 Google Sheets API 直接授權寫入試算表"""
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     try:
         creds = ServiceAccountCredentials.from_json_keyfile_name(JSON_KEY_FILE, scope)
         client = gspread.authorize(creds)
-        
-        # 透過 ID 開啟指定的試算表
         sheet = client.open_by_key(SPREADSHEET_ID).sheet1
         
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         sheet.append_row([now, temp, humi])
-        print("【Google Sheets API】利用本機授權直接寫入成功！")
+        print("【Google Sheets】雲端試算表安全寫入成功！")
     except Exception as e:
-        print(f"【Google Sheets API】認證或寫入發生錯誤: {e}")
+        print(f"【Google Sheets】寫入錯誤: {e}")
 
 def send_to_line_bot_direct(temp, humi):
-    """從樹莓派直接呼叫 LINE Messaging API 推送通知"""
     url = "https://api.line.me/v2/bot/message/push"
     current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    
-    message_text = f"\n🌡️ 樹莓派本地中繼端回報 (方案B)\n-------------------\n⏰ 時間：{current_time}\n°C 溫度：{temp} °C\n💧 濕度：{humi} %"
+    message_text = f"\n🌡️ 樹莓派回報 (方案B)\n-------------------\n⏰ 時間：{current_time}\n°C 溫度：{temp} °C\n💧 濕度：{humi} %"
     
     headers = {
         "Content-Type": "application/json",
@@ -414,15 +257,15 @@ def send_to_line_bot_direct(temp, humi):
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=10)
         if response.status_code == 200:
-            print("【LINE Bot】訊息直發推送成功！")
+            print("【LINE Bot】即時訊息推播成功！")
         else:
-            print(f"【LINE Bot】發送失敗，狀態碼: {response.status_code}")
+            print(f"【LINE Bot】發送失敗: {response.status_code}")
     except Exception as e:
-        print(f"【LINE Bot】發送連線異常: {e}")
+        print(f"【LINE Bot】連線異常: {e}")
 
-# ==================== 3. 主程式執行迴圈 ====================
+# ==================== 3. 主程式執行無窮迴圈 ====================
 if __name__ == "__main__":
-    print("樹莓派 方案 B (本地中繼安全雙向系統) 啟動...")
+    print("樹莓派 方案 B 系統啟動，每 10 分鐘自動讀取寫入...")
     try:
         while True:
             try:
@@ -430,21 +273,10 @@ if __name__ == "__main__":
                 humidity = dhtDevice.humidity
                 
                 if humidity is not None and temperature is not None:
-                    temp_fixed = round(temperature, 1)
-                    humi_fixed = round(humidity, 1)
-                    
-                    print(f"\n[偵測數據] 溫度: {temp_fixed}°C | 濕度: {humi_fixed}%")
-                    
-                    # 依序執行本地雙發任務
-                    send_to_google_sheet_direct(temp_fixed, humi_fixed)
-                    send_to_line_bot_direct(temp_fixed, humi_fixed)
-                
-                # 每 10 分鐘自動讀取發送一次
+                    send_to_google_sheet_direct(round(temperature, 1), round(humidity, 1))
+                    send_to_line_bot_direct(round(temperature, 1), round(humidity, 1))
                 time.sleep(600)
-
             except RuntimeError as error:
-                # DHT11 對時序敏感，偶發讀取失敗為正常物理特性，等待2秒重試
-                print(f"讀取中發生微小錯誤 (重試中): {error.args[0]}")
                 time.sleep(2.0)
                 continue
             except Exception as error:
@@ -452,15 +284,7 @@ if __name__ == "__main__":
                 raise error
     except KeyboardInterrupt:
         dhtDevice.exit()
-        print("\n中繼程式已由使用者手動終止。")</code></pre>
-            <p>替換參數完畢後，按 <code class="code-inline">Ctrl + O</code> 儲存，再按 <code class="code-inline">Ctrl + X</code> 離開編輯器。</p>
-        </div>
-
-        <div class="step-block highlight">
-            <div class="step-title"><div class="step-number">8</div>專案啟動與驗證</div>
-            <p>在樹莓派終端機執行下方指令啟動系統：</p>
-            <pre><code>python3 dht11_local_relay.py</code></pre>
-            <p><strong>💡 成果驗證：</strong>此時樹莓派會調用本機的 `creds.json` 憑證與 Google 伺服器進行安全握手。只要終端機顯示寫入成功，你就可以到 Google 試算表與手機 LINE 進行最後的對接驗證了！</p>
+        print("\n程式已手動終止。")</code></pre>
         </div>
 
     </div>
