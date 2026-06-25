@@ -171,7 +171,7 @@
         </div>
 
         <div class="intro-card">
-            <strong>💡 架構導讀（方案 B）：</strong>
+            <strong>💡 架隔導讀（方案 B）：</strong>
             本教學採用「方案 B」。由樹莓派直接作為控制核心，在讀取 DHT11 後，除了透過 Google v4 憑證寫入指定的試算表 ID，更**直接呼叫 LINE 官方伺服器 API** 發送即時推播，不經雲端第三方轉發，速度最快。
         </div>
 
@@ -179,7 +179,7 @@
             <strong>🔑 方案 B 限定：Google Cloud Platform (GCP) 憑證申請準備</strong><br>
             實作此方案前，請引導同學至 GCP 控制台完成以下設定：<br>
             1. 建立新專案並啟用 <strong>Google Sheets API</strong>。<br>
-            2. 至「憑證」頁面建立服務帳戶（Service Account）或 API 金鑰，下載金鑰金鑰 JSON 檔案。<br>
+            2. 至「憑證」頁面建立服務帳戶（Service Account）或 API 金鑰，下載金鑰 JSON 檔案。<br>
             3. 將該 JSON 檔複製到樹莓派程式碼相同的資料夾中，並在 Python 程式碼內引入呼叫。
         </div>
 
@@ -196,11 +196,11 @@
             <div class="step-title"><div class="step-number">2</div>硬體腳位與型號提醒（三針腳 vs 四針腳）</div>
             <p><strong style="color: #e74c3c;">⚠️ 型號與電阻關鍵確認：</strong></p>
             <ul>
-                <li><strong>3 支腳位模組（市售常見，如 Keyes 藍色小板）：</strong> 此型號<strong>已在電路板上內建 4.7kΩ 或 10kΩ 上拉電阻</strong>。不需外接電阻，直接用杜邦線連接樹莓派即可。</li>
-                <li><strong>4 支腳位元件（純藍色塑料外殼裸件）：</strong> 第 3 腳為空腳。此型號<strong>內部沒有電阻</strong>，接線時必須在 VCC（第1腳）與 DATA（第2腳）之間<strong>手動並聯一個 4.7kΩ ~ 10kΩ 的電阻</strong>作為上拉電阻，否則樹莓派會因訊號浮動而讀取不到數據（Unknown platform 錯誤）。</li>
+                <li><strong>3 腳位模組（常見藍色小板）：</strong> 通常已內建上拉電阻，因此通常不需外接電阻。接線時只需將模組的 VCC、GND、DATA 依序連接樹莓派即可。</li>
+                <li><strong>4 腳位元件（裸件）：</strong> 內部沒有整合電阻，必須在 VCC 與 DATA 之間<strong>手動外接一個 4.7kΩ ~ 10kΩ 的上拉電阻</strong>，否則樹莓派可能因訊號浮動而無法正確讀取到溫濕度數據（第 3 腳通常為空腳不接）。</li>
             </ul>
 
-            <p style="margin-top: 1rem;"><strong>實體 40-Pin 排針接線對照表（樹莓派 3）：</strong></p>
+            <p style="margin-top: 1rem;"><strong>Raspberry Pi 40-pin 實體排針接法對照表（樹莓派 3）：</strong></p>
             <div class="gpio-container">
                 <table class="gpio-table">
                     <thead>
@@ -213,7 +213,7 @@
                     </thead>
                     <tbody>
                         <tr class="pin-vcc">
-                            <td>接 DHT11 的 VCC（標示 + 或 VCC） ── [3.3V 電源]</td>
+                            <td>接 DHT11 的 VCC（標示 + 或 VCC） ── [3.3V 電源 / Pin 1]</td>
                             <td class="pin-num">1</td>
                             <td class="pin-num">2</td>
                             <td>5V 電源</td>
@@ -228,10 +228,10 @@
                             <td>GPIO 3 (SCL)</td>
                             <td class="pin-num">5</td>
                             <td class="pin-num">6</td>
-                            <td class="pin-gnd">接 DHT11 的 GND（標示 - 或 GND） ── [Ground 地線]</td>
+                            <td class="pin-gnd">接 DHT11 的 GND（標示 - 或 GND） ── [Ground 地線 / Pin 6]</td>
                         </tr>
                         <tr class="pin-gpio4">
-                            <td>接 DHT11 的 DATA（標示 S、OUT 或 DAT） ── [GPIO 4]</td>
+                            <td>接 DHT11 的 DATA（標示 S、OUT 或 DAT） ── [GPIO 4 / Pin 7]</td>
                             <td class="pin-num">7</td>
                             <td class="pin-num">8</td>
                             <td>GPIO 14 (TXD)</td>
