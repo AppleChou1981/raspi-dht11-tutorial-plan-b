@@ -9,6 +9,7 @@
             --primary-color: #162447;
             --orange-accent: #e67e22;
             --danger-color: #c0392b;
+            --line-color: #06C755;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --code-bg: #1e293b;
@@ -36,10 +37,6 @@
         .nav-toggle-box {
             text-align: center;
             margin: 1.5rem 0 2.5rem 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
         }
         .btn-toggle-a {
             background-color: #2980b9;
@@ -72,14 +69,6 @@
             margin-bottom: 2rem;
         }
 
-        .gcp-card {
-            background-color: #ebf5fb;
-            border-left: 5px solid #2980b9;
-            padding: 1.2rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-        }
-
         .step-block {
             background-color: var(--card-bg);
             border-radius: 8px;
@@ -89,26 +78,23 @@
         }
 
         .step-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: bold;
-            color: #1f4068;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
         }
 
-        .step-number {
-            background-color: #1f4068;
-            color: white;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            margin-right: 0.6rem;
+        .action-box {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #e2e8f0;
         }
+
+        .important { color: #e74c3c; font-weight: bold; }
 
         .url-box {
             background-color: #f1f5f9;
@@ -131,7 +117,7 @@
 
         .gpio-container { overflow-x: auto; margin: 1.5rem 0; }
         .gpio-table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 0.85rem; text-align: center; }
-        .gpio-table th { background-color: #1f4068; color: white; padding: 0.5rem; }
+        .gpio-table th { background-color: var(--primary-color); color: white; padding: 0.5rem; }
         .gpio-table td { border: 1px solid #e2e8f0; padding: 0.4rem; }
         .pin-num { background-color: #e2e8f0; font-weight: bold; width: 40px; }
         .pin-vcc { background-color: #fadbd8; color: #78281f; font-weight: bold; }
@@ -148,16 +134,15 @@
             font-size: 0.9rem;
         }
         code { font-family: Consolas, Monaco, monospace; }
-        .code-inline { background-color: #e2e8f0; color: #1e293b; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem; font-family: monospace; }
         
-        footer { text-align: center; padding: 2rem 1rem; background-color: #162447; color: white; margin-top: 4rem; font-size: 0.9rem; }
+        footer { text-align: center; padding: 3rem 1rem; background-color: #f8fafc; color: #64748b; font-size: 0.9rem; border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>樹莓派 3 物聯網進階實作教學</h1>
-        <p>DHT11 溫溼度數據收集：樹莓派本地端中繼與直連 LINE Bot 方案 (方案 B)</p>
+        <p>DHT11 溫溼度數據收集：樹莓派本地中繼與直連 LINE Bot 方案 (方案 B)</p>
     </header>
 
     <div class="container">
@@ -167,40 +152,60 @@
         </div>
 
         <div class="warning-card">
-            ⚠️ 重要提醒：請先插妥杜邦線並確認所有接線正確後再行送電！若是電源（VCC）與接地（GND）接反，會導致 DHT11 及 Raspberry Pi 晶片過熱燒毀！
+            ⚠️ 重要提醒：請先插妥杜邦線並確認所有接線正確後再行送電！若是電源（VCC）與接地（GND）接反，會導致硬體晶片過熱燒毀！
         </div>
 
         <div class="intro-card">
-            <strong>💡 架隔導讀（方案 B）：</strong>
-            本教學採用「方案 B」。由樹莓派直接作為控制核心，在讀取 DHT11 後，除了透過 Google v4 憑證寫入指定的試算表 ID，更**直接呼叫 LINE 官方伺服器 API** 發送即時推播，不經雲端第三方轉發，速度最快。
-        </div>
-
-        <div class="gcp-card">
-            <strong>🔑 方案 B 限定：Google Cloud Platform (GCP) 憑證申請準備</strong><br>
-            實作此方案前，請引導同學至 GCP 控制台完成以下設定：<br>
-            1. 建立新專案並啟用 <strong>Google Sheets API</strong>。<br>
-            2. 至「憑證」頁面建立服務帳戶（Service Account）或 API 金鑰，下載金鑰 JSON 檔案。<br>
-            3. 將該 JSON 檔複製到樹莓派程式碼相同的資料夾中，並在 Python 程式碼內引入呼叫。
+            <strong>💡 架構導讀（方案 B）：</strong>
+            本方案由樹莓派作為本地中控發起核心。讀取 DHT11 後，樹莓派將引入 <strong>GCP 安全 JSON 憑證</strong>，直接透過 Google Sheets API V4 寫入指定的試算表 ID，並<strong>平行呼叫 LINE 官方伺服器 API</strong> 發送訊息。此方案傳輸路徑最直接，數據自主權最高。
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">1</div>如何檢索並提取 Google 試算表 ID？</div>
-            <p>打開你的 Google 雲端試算表，觀察瀏覽器上方網址列，結構如下圖。請<strong>僅複製</strong>兩條斜線中間的那一長串英數隨機亂碼：</p>
+            <div class="step-title">第一步：取得 LINE 通訊憑證 (Token 與 ID)</div>
+            <div class="action-box">
+                <strong>1. 獲取 Your user ID：</strong><br>
+                登入 <a href="https://developers.line.biz/console/" target="_blank">LINE Developers</a> ➡️ 點進您的 Channel ➡️ <strong>Basic settings</strong> 頁籤 ➡️ 滑至最底部複製 <strong>Your user ID</strong> (U開頭亂碼)。
+            </div>
+            <div class="action-box">
+                <strong>2. 獲取 Access Token：</strong><br>
+                切換至 <strong>Messaging API</strong> 頁籤 ➡️ 滑至最底部 ➡️ 在 <strong>Channel access token</strong> 欄位點擊「Issue」並複製該超長亂碼金鑰。
+            </div>
+            <p><span class="important">⚠️ 關鍵動作：</span>請務必掃描頁面上的 QR Code 將機器人**加入好友**，否則系統無權限推送訊息。</p>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title">第二步：Google Cloud Platform (GCP) JSON 憑證申請</div>
+            <p>樹莓派必須透過此憑證才能安全地直連 Google 試算表：</p>
+            <div class="action-box">
+                <strong>1. 啟用 API：</strong> 前往 <a href="https://console.cloud.google.com/" target="_blank">GCP 控制台</a>，建立專案並啟用 <strong>Google Sheets API</strong>。
+            </div>
+            <div class="action-box">
+                <strong>2. 建立服務帳戶：</strong> 進入「憑證」➡️「建立憑證」➡️「服務帳戶」。建立後，複製該帳戶的 <strong>Email 地址</strong>。
+            </div>
+            <div class="action-box">
+                <strong>3. 下載 JSON 金鑰：</strong> 點擊剛建立的服務帳戶 ➡️「金鑰」頁籤 ➡️「新增金鑰」➡️「建立新金鑰」➡️ 選擇 <strong>JSON</strong>。下載後請將檔案命名為 <code>credentials.json</code> 並放在樹莓派程式資料夾。
+            </div>
+            <div class="action-box">
+                <strong>4. 共用試算表：</strong> 開啟您的 Google 試算表，點擊右上角「共用」，將上述**服務帳戶 Email** 加入並給予「編輯者」權限。
+            </div>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title">第三步：如何檢索並提取 Google 試算表 ID？</div>
+            <p>觀察瀏覽器上方網址列，結構如下圖。請<strong>僅複製</strong>兩條斜線中間的那一長串亂碼：</p>
             <div class="url-box">
                 https://docs.google.com/spreadsheets/d/<span class="url-highlight">【 只要複製這整串隨機亂碼，這就是試算表 ID 】</span>/edit#gid=0
             </div>
-            <p>💡 <em>註：這串 ID 稍後必須貼進 Python 程式碼中的 <code class="code-inline">SPREADSHEET_ID</code> 欄位。</em></p>
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">2</div>硬體腳位與型號提醒（三針腳 vs 四針腳）</div>
+            <div class="step-title">第四步：硬體腳位與型號提醒</div>
             <p><strong style="color: #e74c3c;">⚠️ 型號與電阻關鍵確認：</strong></p>
             <ul>
-                <li><strong>3 腳位模組（常見藍色小板）：</strong> 通常已內建上拉電阻，因此通常不需外接電阻。接線時只需將模組的 VCC、GND、DATA 依序連接樹莓派即可。</li>
-                <li><strong>4 腳位元件（裸件）：</strong> 內部沒有整合電阻，必須在 VCC 與 DATA 之間<strong>手動外接一個 4.7kΩ ~ 10kΩ 的上拉電阻</strong>，否則樹莓派可能因訊號浮動而無法正確讀取到溫濕度數據（第 3 腳通常為空腳不接）。</li>
+                <li><strong>3 腳位模組（常見藍色小板）：</strong> 通常已內建上拉電阻，不需外接，接 VCC、GND、DATA 即可。</li>
+                <li><strong>4 腳位元件（裸件）：</strong> 內部無整合電阻，必須在 VCC 與 DATA 之間手動並聯一個 4.7kΩ ~ 10kΩ 的上拉電阻，否則訊號會因浮動導致讀取失敗。</li>
             </ul>
 
-            <p style="margin-top: 1rem;"><strong>Raspberry Pi 40-pin 實體排針接法對照表（樹莓派 3）：</strong></p>
             <div class="gpio-container">
                 <table class="gpio-table">
                     <thead>
@@ -213,7 +218,7 @@
                     </thead>
                     <tbody>
                         <tr class="pin-vcc">
-                            <td>接 DHT11 的 VCC（標示 + 或 VCC） ── [3.3V 電源 / Pin 1]</td>
+                            <td>接 DHT11 的 VCC ── [3.3V 電源 / Pin 1]</td>
                             <td class="pin-num">1</td>
                             <td class="pin-num">2</td>
                             <td>5V 電源</td>
@@ -228,10 +233,10 @@
                             <td>GPIO 3 (SCL)</td>
                             <td class="pin-num">5</td>
                             <td class="pin-num">6</td>
-                            <td class="pin-gnd">接 DHT11 的 GND（標示 - 或 GND） ── [Ground 地線 / Pin 6]</td>
+                            <td class="pin-gnd">接 DHT11 的 GND ── [Ground 地線 / Pin 6]</td>
                         </tr>
                         <tr class="pin-gpio4">
-                            <td>接 DHT11 的 DATA（標示 S、OUT 或 DAT） ── [GPIO 4 / Pin 7]</td>
+                            <td>接 DHT11 的 DATA ── [GPIO 4 / Pin 7]</td>
                             <td class="pin-num">7</td>
                             <td class="pin-num">8</td>
                             <td>GPIO 14 (TXD)</td>
@@ -248,16 +253,19 @@
         </div>
 
         <div class="step-block">
-            <div class="step-title"><div class="step-number">3</div>樹莓派本地中繼與直連 LINE Bot 控制主程式</div>
+            <div class="step-title">第五步：樹莓派本地中繼與直連 LINE Bot 控制主程式</div>
+            <p>此程式碼將同時調用 <code>google-api-python-client</code> (須先安裝) 與 LINE API：</p>
             <pre><code>import time
 import requests
 import board
 import adafruit_dht
+# 記得先 pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 # ==================== 1. 參數與憑證設定 ====================
-SPREADSHEET_ID = "貼上你檢索到的Google試算表ID亂碼"
-LINE_ACCESS_TOKEN = "請在此處貼上你的_LINE_Channel_Access_Token"
-TARGET_USER_ID = "請在此處貼上你的_LINE_Your_user_ID"
+SPREADSHEET_ID = "貼上你的試算表ID"
+LINE_ACCESS_TOKEN = "貼上你的LINE_ACCESS_TOKEN"
+TARGET_USER_ID = "貼上你的Your_user_ID"
+JSON_KEY_FILE = "credentials.json"  # 從 GCP 下載的金鑰檔案
 
 dhtDevice = adafruit_dht.DHT11(board.D4)
 
@@ -265,7 +273,6 @@ def send_to_line_bot_direct(temp, humi):
     """樹莓派直接呼叫 LINE 官方主機 API 推播"""
     line_api_url = "https://api.line.me/v2/bot/message/push"
     current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    
     message_text = f"\n🌡️ 樹莓派溫溼度直連回報\n-------------------\n⏰ 時間：{current_time}\n°C 溫度：{temp} °C\n💧 濕度：{humi} %"
     
     headers = {
@@ -279,13 +286,11 @@ def send_to_line_bot_direct(temp, humi):
     try:
         response = requests.post(line_api_url, json=payload, headers=headers, timeout=10)
         if response.status_code == 200:
-            print("【LINE Bot 直連】手機推播成功！")
-        else:
-            print(f"【LINE Bot】發送失敗: {response.status_code}")
+            print("【LINE Bot】手機推播成功！")
     except Exception as e:
         print(f"【LINE Bot】通訊異常: {e}")
 
-# 主迴圈維持定時量測與邏輯呼叫...
+# (以下省略 Google Sheets V4 API 認證與寫入迴圈邏輯...)
 </code></pre>
         </div>
 
